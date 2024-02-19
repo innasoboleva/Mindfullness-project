@@ -44,7 +44,46 @@ def create_user(request):
             new_subsciption = Subscription.create_subscription(new_user)
             new_subsciption.save()
             print(new_user)
-            return JsonResponse({'status': 'success'})
+            # adding user to current session
+            request.session['username'] = new_user.username
+            request.session['email'] = new_user.email
+            return JsonResponse({'status': 'success', 'username': username, 'email': email})
     
     return JsonResponse({'status': 'error', 'message': 'Error. Please check that all fields are correct.'})
-   
+
+
+@api_view(['GET'])
+def get_user(request):
+    username = request.session.get('username')
+    user_email = request.session.get('email')
+    if username and user_email:
+        return JsonResponse({'status': 'success', 'username': username, 'email': user_email})
+    
+    return JsonResponse({'status': 'error', 'message': 'User is not logged in.'})
+
+
+@api_view(['POST'])
+def login_user(request):
+    if request.body:
+        data = json.loads(request.body)
+        print(data)
+        email = data.get('email')
+        password = data.get('password')
+        try:
+            user = User.objects.get(email=email)
+            print(user.password)
+            if password == user.password:
+                return JsonResponse({'status': 'success'})
+            else:
+                return JsonResponse({'status': 'error', 'message': 'Password doesn\'t match.'})
+        except:
+            return JsonResponse({'status': 'error', 'message': 'User does not exist.'})
+    return JsonResponse({'status': 'error', 'message': 'No data sent for log in.'})
+
+
+@api_view(['GET'])
+def logout_user(request):
+    request.session['username'] = None
+    request.session['email'] = None
+    return JsonResponse({'status': 'success'})
+

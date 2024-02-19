@@ -24,3 +24,32 @@ root.render(
 // to log results (for example: reportWebVitals(console.log))
 // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
 reportWebVitals();
+
+export function logged(isLoggedIn) {
+  var buttonSignIn = document.querySelector(`#user-signin `);
+  var buttonSignOut = document.querySelector(`#user-signout`);
+  
+  if (isLoggedIn) {
+    buttonSignIn.disabled = true;
+    buttonSignOut.disabled = false;
+  } else {
+    buttonSignIn.disabled = false;
+    buttonSignOut.disabled = true;
+  }
+};
+
+document.querySelector("#user-signout").addEventListener("click", (evt) => {
+  evt.preventDefault();
+
+  console.log("Logging out...");
+  fetch("http://127.0.0.1:8000/api/logout")
+      .then((response) => response.json())
+      .then((data) => {
+          if (data["status"] == "error") {
+             // displays error message
+          } else {
+            console.log("User has logged out");
+            logged(false);
+          }
+  });
+});

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import {logged} from './index'; 
 
 function LoginUser() {
     const [formInputs, setFormInputs] = useState({
@@ -20,7 +21,7 @@ function LoginUser() {
 
         if (isValid.status === 'success') {
             console.log('Sending request to server to check user...');
-            fetch('/api', {
+            fetch('http://127.0.0.1:8000/api/login', {
                 method: 'POST',
                 body: JSON.stringify(formInputs),
                 headers: { 'Content-Type': 'application/json' },
@@ -30,7 +31,8 @@ function LoginUser() {
                     if (data.status === 'error') {
                         setErrorMessage(data.message);
                     } else {
-                        // Handle successful user creation
+                        console.log("User has logged in");
+                        logged(true);
                     }
                 });
         } else {
@@ -87,6 +89,6 @@ function isFormValid(formInputs) {
     //     return { status: 'error', message: 'Password is too short' };
     // }
     return { status: 'success' };
-}
+};
 
 export default LoginUser;
