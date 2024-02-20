@@ -32,6 +32,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'corsheaders',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -40,7 +41,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'rest_framework',
-    'corsheaders',
     'IS_app'
 ]
 
@@ -149,4 +149,23 @@ CORS_ALLOWED_ORIGINS = [
     'http://127.0.0.1:8000',
     ]
 
+CORS_ALLOW_HEADERS = (
+    'x-requested-with',
+    'content-type',
+    'accept',
+    'origin',
+    'authorization',
+    'X-CSRFToken'
+)
+
 # SECURE_SSL_REDIRECT = True # For secure connection in production
+
+SESSION_ENGINE = 'django.contrib.sessions.backends.db'
+SESSION_COOKIE_NAME = "user_session"
+SESSION_COOKIE_HTTPONLY = False # ureadable by JS if ture
+SESSION_SAVE_EVERY_REQUEST = True
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+
+#If it's not explicitly defined, it defaults to 'Lax'. You can override it to 'None' to allow cross-site requests
+SESSION_COOKIE_SAMESITE = 'None'
+SESSION_COOKIE_SECURE = True

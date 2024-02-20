@@ -1,15 +1,39 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
+import { logged } from './index';
 
 function App() {
   const [page, setPage] = useState(0);
+  const [username, setUsername] = useState('');
 
   useEffect(() => {
-    fetch('http://127.0.0.1:8000/api')
+    // fetch('http://127.0.0.1:8000/api', {
+    //   credentials: 'include' // Include credentials (cookies) in the request
+    // })
+    //   .then(response => response.json())
+    //   .then(data => {
+    //     setPage(data.page);
+    //   })
+    //   .catch(error => {
+    //     console.error('Error: ', error);
+    //   });
+
+    fetch('http://127.0.0.1:8000/api/get_user', {
+      method: 'GET',
+      credentials: 'include', // Include credentials (cookies) in the request
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
       .then(response => response.json())
       .then(data => {
-        console.log(data);
-        setPage(data.page);
+        if (data.status == 'success') {
+          setUsername(data.firstname);
+          logged(true);
+          console.log(`User is ${username}`)
+        } else {
+          logged(false);
+        }
       })
       .catch(error => {
         console.error('Error: ', error);
@@ -29,7 +53,7 @@ function App() {
         </div>
         <button>Подробнее</button>
         <button>Мой подкаст на YouTube</button>
-        <iframe 
+        {/* <iframe 
           width="560" 
           height="315" 
           src="https://www.youtube.com/embed/iyMMxvXxpis"
@@ -37,7 +61,7 @@ function App() {
           frameBorder="0" 
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
           allowFullScreen
-        ></iframe>
+        ></iframe> */}
         
         <button>Тест на выгорание</button>
         <h3>Расписание занятий</h3>

@@ -10,6 +10,7 @@ static/
 .vscode/
 .idea/
 *.swp
+secrets.sh
 
 # React
 node_modules/

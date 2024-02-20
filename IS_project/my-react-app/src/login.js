@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import {logged} from './index'; 
+import {logged} from './index';
+import { useNavigate } from 'react-router-dom';
 
 function LoginUser() {
     const [formInputs, setFormInputs] = useState({
@@ -8,6 +9,7 @@ function LoginUser() {
     });
 
     const [errorMessage, setErrorMessage] = useState('');
+    const navigate = useNavigate(); // Get the history object
 
     const handleChange = (event) => {
         const { name, value } = event.target;
@@ -25,6 +27,8 @@ function LoginUser() {
                 method: 'POST',
                 body: JSON.stringify(formInputs),
                 headers: { 'Content-Type': 'application/json' },
+                credentials: 'include',
+                // withCredentials: true,
             })
                 .then((response) => response.json())
                 .then((data) => {
@@ -33,6 +37,7 @@ function LoginUser() {
                     } else {
                         console.log("User has logged in");
                         logged(true);
+                        navigate('/');
                     }
                 });
         } else {
