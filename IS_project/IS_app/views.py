@@ -1,14 +1,16 @@
 from django.contrib.auth import authenticate
 from django.contrib.auth.models import User
 # from django.shortcuts import render
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, permission_classes
 # from rest_framework.response import Response
 from django.http import JsonResponse
 import json
 from django.core.serializers import serialize
-from .models import Subscription
+from .models import Subscription, UserTokenJWT
+from rest_framework.permissions import IsAuthenticated
 
-import requests
+from rest_framework_simplejwt.tokens import RefreshToken
+
 
 @api_view(['GET', 'POST'])
 def index(request):
@@ -23,12 +25,20 @@ def index(request):
 def show_users(request):
     users = User.objects.all()
     serialized_users = serialize("json", users)
-    print('---SUB-----')
+    
     subs = Subscription.objects.all()
     serialized_subs = serialize("json", subs)
-    print(serialized_subs)
-    print('---END-----')
-    return JsonResponse(serialized_users, safe=False)
+    
+    tokens = UserTokenJWT.objects.all()
+    serialized_tokens = serialize("json", tokens)
+    
+    data = {
+        'users': serialized_users,
+        'subscriptions': serialized_subs,
+        'tokens': serialized_tokens
+    }
+    
+    return JsonResponse(data, safe=False)
 
 
 @api_view(['POST'])
@@ -99,8 +109,11 @@ def logout_user(request):
     return response
 
 
+@permission_classes([IsAuthenticated])
 @api_view(['POST'])
 def orders(request):
     
     return JsonResponse({'status': 'success'})
+
+
 

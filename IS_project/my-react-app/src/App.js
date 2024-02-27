@@ -14,14 +14,14 @@ function App() {
   const [username, setUsername] = useState('');
 
   const initialOptions = {
-    "client-id": "AaM7EWfJN3pojl3GMiAThBxvfiDFNcfEKsHPV-x8fKzEJLzk3hXyanJhLfOKrSEeOjWhqPGmThn8j1XF",
+    'client-id': "AaM7EWfJN3pojl3GMiAThBxvfiDFNcfEKsHPV-x8fKzEJLzk3hXyanJhLfOKrSEeOjWhqPGmThn8j1XF",
     'currency': 'USD',
     'intent': 'capture'
     // "enable-funding": "venmo",
     // "disable-funding": "paylater,card",
     // "data-sdk-integration-source": "integrationbuilder_sc",
     };
-    const [message, setMessage] = useState("");
+    // const [message, setMessage] = useState("");
 
   useEffect(() => {
 
@@ -88,7 +88,7 @@ function App() {
       <PayPalScriptProvider options={initialOptions}>
         <Checkout/>
       </PayPalScriptProvider>
-      <Message content={message} />
+      {/* <Message content={message} /> */}
 
     </div>
   );

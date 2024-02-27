@@ -3,6 +3,11 @@ from django.contrib.auth.models import User
 from datetime import date
 
 
+class UserTokenJWT(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    refresh_token = models.CharField(max_length=255)
+
+
 class Subscription(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='subscription')
     paid_subscription = models.BooleanField(default=False)

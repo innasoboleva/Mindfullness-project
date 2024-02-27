@@ -54,18 +54,18 @@ function Navbar() {
   );
 }
 
-function logout() {
-  console.log("Logging out...");
-    fetch("http://127.0.0.1:8000/api/logout")
-        .then((response) => response.json())
-        .then((data) => {
-            if (data["status"] == "error") {
-              // displays error message
-            } else {
-              console.log("User has logged out");
-              logged(false);
-            }
-    });
-}
+// function logout() {
+//   console.log("Logging out...");
+//     fetch("http://127.0.0.1:8000/api/logout")
+//         .then((response) => response.json())
+//         .then((data) => {
+//             if (data["status"] == "error") {
+//               // displays error message
+//             } else {
+//               console.log("User has logged out");
+//               logged(false);
+//             }
+//     });
+// }
 
 export default Navbar;
