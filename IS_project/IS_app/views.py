@@ -98,3 +98,9 @@ def logout_user(request):
     response.set_cookie('user_session', '', samesite='None', secure=True)
     return response
 
+
+@api_view(['POST'])
+def orders(request):
+    
+    return JsonResponse({'status': 'success'})
+
