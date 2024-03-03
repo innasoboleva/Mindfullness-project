@@ -50,6 +50,9 @@ function Navbar() {
             <li className="nav-item">
             <Link className="nav-link" to="/schedule" id="schedule">Schedule</Link>
             </li>
+            <li className="nav-item">
+            <Link className="nav-link" to="/library" id="library">Library</Link>
+            </li>
         </ul>
         </div>
         </nav>

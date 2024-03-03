@@ -7,7 +7,7 @@ import json
 from django.core.serializers import serialize
 from rest_framework.permissions import IsAuthenticated
 from django.contrib.auth.models import User
-from .models import Subscription, UserTokenJWT
+from .models import Subscription, UserTokenJWT, Post
 from datetime import date
 
 
@@ -121,10 +121,12 @@ def logout_user(request):
 @api_view(['POST'])
 def user_subscribed(request):
     user = request.user
+    print('Subscribing...')
     if user.is_authenticated:
         try:
             subscription = Subscription.objects.get(user=user)
             subscription.update_subscription()
+            print('Subscribed!')
             return JsonResponse({'status': 'success'})
         except Subscription.DoesNotExist:
             # If subscription doesn't exist
@@ -135,6 +137,14 @@ def user_subscribed(request):
             return JsonResponse({'status': 'error', 'message': str(e)})
     else:
         return JsonResponse({'status': 'error', 'message': 'User not authenticated.'})
+    
+
+@permission_classes([IsAuthenticated])
+@api_view(['GET'])
+def get_content(request):
+    posts = Post.objects.all()
+    data = [{'title': post.title, 'content': post.content, 'video_url': post.video_url} for post in posts]
+    return JsonResponse(data)
 
 
 

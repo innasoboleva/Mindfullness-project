@@ -6,6 +6,7 @@ import App from './App';
 import RegisterUser from './register';
 import LoginUser from './login';
 import Scheduler from './schedule';
+import Library from './library';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import reportWebVitals from './reportWebVitals';
 
@@ -19,6 +20,7 @@ root.render(
         <Route exact path="/register" element={<RegisterUser/>} />
         <Route exact path="/login" element={<LoginUser/>} />
         <Route exact path="/schedule" element={<Scheduler/>} />
+        <Route exact path="/library" element={<Library/>} />
       </Routes> 
     </Router>
   // </React.StrictMode>

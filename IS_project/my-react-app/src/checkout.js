@@ -19,8 +19,29 @@ function Checkout() {
 
     const onApproveOrder = (data,actions) => {
     return actions.order.capture().then((details) => {
-    const name = details.payer.name.given_name;
-        alert(`Transaction completed by ${name}`);
+      const jwtToken = localStorage.getItem('token');
+      // Update server
+        fetch('http://127.0.0.1:8000/api/subscribed/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${jwtToken}`,
+        },
+      })
+        .then(response => response.json())
+        .then(data => {
+          if (data.status == 'success') {
+            console.log('Server was updated, user subscribed.')
+          } else {
+            console.error('Error: ', data.message);
+          }
+        })
+        .catch(error => {
+          console.error('Error: ', error);
+        });
+
+      const name = details.payer.name.given_name;
+      alert(`Transaction completed by ${name}`);
     });
     }
 

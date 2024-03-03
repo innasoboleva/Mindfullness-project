@@ -9,6 +9,9 @@ class UserTokenJWT(models.Model):
 
 
 class Subscription(models.Model):
+    """
+    Subscription for keeping track of users who paid subscription.
+    """
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='subscription')
     paid_subscription = models.BooleanField(default=False)
     subscription_start_date = models.DateField(null=True, blank=True)
@@ -36,4 +39,17 @@ class Subscription(models.Model):
         self.save()
 
     def __str__(self):
-        return f"{self.email} - Paid Subscription: {self.paid_subscription}"
+        return f"{self.user.email} - Paid Subscription: {self.paid_subscription}"
+    
+
+class Post(models.Model):
+    """
+    Model for displaying videos or blog posts in a library.
+    """
+    title = models.CharField(max_length=200)
+    content = models.TextField()
+    video_url = models.URLField()
+    publication_date = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.title}, {self.content}, {self.video_url}"
