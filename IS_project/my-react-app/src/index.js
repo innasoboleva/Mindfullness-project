@@ -47,21 +47,3 @@ export function logged(isLoggedIn) {
     console.log('User not signed in. Sign out disabled')
   }
 };
-
-// document.addEventListener("DOMContentLoaded", function() {
-//   document.querySelector("#user-signout").addEventListener("click", (evt) => {
-//     evt.preventDefault();
-
-//     console.log("Logging out...");
-//     fetch("http://127.0.0.1:8000/api/logout")
-//         .then((response) => response.json())
-//         .then((data) => {
-//             if (data["status"] == "error") {
-//               // displays error message
-//             } else {
-//               console.log("User has logged out");
-//               logged(false);
-//             }
-//     });
-//   });
-// });

@@ -76,16 +76,6 @@ TEMPLATES = [
 WSGI_APPLICATION = 'IS_project.wsgi.application'
 
 
-# Database
-# https://docs.djangoproject.com/en/4.2/ref/settings/#databases
-
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
-#     }
-# }
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
@@ -150,9 +140,13 @@ CORS_ALLOW_CREDENTIALS = True
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOWED_ORIGINS = [
     'http://localhost:3000',
+    'https://localhost:3000',
     'http://localhost:8000',
+    'https://localhost:8000',
     'http://127.0.0.1:3000',
+    'https://127.0.0.1:3000',
     'http://127.0.0.1:8000',
+    'https://127.0.0.1:8000',
     ]
 
 CORS_ALLOW_HEADERS = (
@@ -164,13 +158,13 @@ CORS_ALLOW_HEADERS = (
     'X-CSRFToken'
 )
 
-# SECURE_SSL_REDIRECT = True # For secure connection in production
+SECURE_SSL_REDIRECT = False # For secure connection in production
 
 SESSION_ENGINE = 'django.contrib.sessions.backends.db'
-SESSION_COOKIE_NAME = "user_session"
+# SESSION_COOKIE_NAME = "user_session"
 SESSION_COOKIE_HTTPONLY = False # ureadable by JS if ture
-SESSION_SAVE_EVERY_REQUEST = True
-SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+# SESSION_SAVE_EVERY_REQUEST = True
+# SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 
 #If it's not explicitly defined, it defaults to 'Lax'. You can override it to 'None' to allow cross-site requests
 SESSION_COOKIE_SAMESITE = 'None'

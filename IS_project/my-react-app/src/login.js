@@ -26,16 +26,19 @@ function LoginUser() {
             fetch('http://127.0.0.1:8000/api/login', {
                 method: 'POST',
                 body: JSON.stringify(formInputs),
-                headers: { 'Content-Type': 'application/json' },
-                credentials: 'include',
-                // withCredentials: true,
+                headers: { 'Content-Type': 'application/json' }
             })
                 .then((response) => response.json())
                 .then((data) => {
                     if (data.status === 'error') {
                         setErrorMessage(data.message);
+                        console.log(data.message)
                     } else {
+                        localStorage.setItem('token', data['access_token']);
+                        localStorage.setItem('email', formInputs['email']);
                         console.log("User has logged in");
+                        console.log(`User is ${formInputs['email']}`);
+                        console.log('Toke', data['access_token']);
                         logged(true);
                         navigate('/');
                     }
@@ -71,7 +74,7 @@ function LoginUser() {
                         value={formInputs.password}
                         onChange={handleChange}
                         maxLength="50"
-                        // minLength="10"
+                        minLength="10"
                         alt="put your password here"
                     />
                     <div className="status" aria-hidden="true">
@@ -90,9 +93,9 @@ function isFormValid(formInputs) {
     if (!re.test(formInputs.email)) {
         return { status: 'error', message: 'Wrong input for email' };
     }
-    // if (formInputs.password.length < 10) {
-    //     return { status: 'error', message: 'Password is too short' };
-    // }
+    if (formInputs.password.length < 10) {
+        return { status: 'error', message: 'Password is too short' };
+    }
     return { status: 'success' };
 };
 

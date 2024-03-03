@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { logged } from './index';
 
 function RegisterUser() {
     const [formInputs, setFormInputs] = useState({
@@ -32,9 +33,14 @@ function RegisterUser() {
                 .then((response) => response.json())
                 .then((data) => {
                     if (data.status === 'success') {
+                        localStorage.setItem('token', data['access_token']);
+                        localStorage.setItem('email', formInputs['email']);
                         navigate('/');
                         setErrorMessage('');
+                        console.log('User is created', data['email'])
+                        logged(true)
                     } else {
+                        console.log(data.message)
                         setErrorMessage(data.message);
                     }
                 });
@@ -83,7 +89,7 @@ function RegisterUser() {
                         value={formInputs.password}
                         onChange={handleChange}
                         maxLength="50"
-                        // minLength="10"
+                        minLength="10"
                         alt="put your password here"
                     />
                     <div className="status" aria-hidden="true">
@@ -104,9 +110,9 @@ function isFormValid(formInputs) {
         return { status: 'error', message: 'Wrong input for email' };
     }
 
-    // if (formInputs.password.length < 10) {
-    //     return { status: 'error', message: 'Password is too short' };
-    // }
+    if (formInputs.password.length < 10) {
+        return { status: 'error', message: 'Password is too short' };
+    }
 
     return { status: 'success' };
 }
