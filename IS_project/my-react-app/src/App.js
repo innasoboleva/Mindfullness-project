@@ -1,22 +1,28 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import './App.css';
 import { logged } from './index';
-
-import { PayPalScriptProvider } from "@paypal/react-paypal-js";
 import Checkout from './checkout';
+import { PayPalScriptProvider } from "@paypal/react-paypal-js";
+
 
 
 function App() {
- 
+
+  const [userNotLogedIn, setUserNotLogedIn] = useState(true);
+
   const initialOptions = {
     'client-id': "AaM7EWfJN3pojl3GMiAThBxvfiDFNcfEKsHPV-x8fKzEJLzk3hXyanJhLfOKrSEeOjWhqPGmThn8j1XF",
     'currency': 'USD',
-    'intent': 'capture'
-    // "enable-funding": "venmo",
+    'intent': 'capture',
+    "enable-funding": "venmo",
     // "disable-funding": "paylater,card",
-    // "data-sdk-integration-source": "integrationbuilder_sc",
-    };
-    
+    "data-sdk-integration-source": "integrationbuilder_sc",
+  };
+
+  const userSubscribed = localStorage.getItem('subscription') == 'false';
+  const navigate = useNavigate();
+
   useEffect(() => {
     const jwtToken = localStorage.getItem('token');
 
@@ -30,15 +36,25 @@ function App() {
       .then(response => response.json())
       .then(data => {
         if (data.status == 'success') {
+          setUserNotLogedIn(false);
           logged(true);
         } else {
+          setUserNotLogedIn(true);
           logged(false);
+          console.log('user is not logged, showing button')
         }
       })
       .catch(error => {
         console.error('Error: ', error);
       });
   }, []);
+
+  const handleLoginRedirect = () => {
+    const data = { message: 'You must be logged in for making payments' };
+    // Encoding data into URL parameters
+    const params = new URLSearchParams(data).toString();
+    navigate(`/login?${params}`);
+  };
 
   return (
     <div className="App">
@@ -61,26 +77,52 @@ function App() {
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
           allowFullScreen
         ></iframe> */}
-        
+
         <button>Тест на выгорание</button>
         <h3>Расписание занятий</h3>
         <div className="calendar-screen">
-          <div>Mon</div>
-          <div>Tue</div>
-          <div>Wed</div>
-          <div>Thu</div>
-          <div>Fri</div>
-          <div>Sat</div>
-          <div>Sun</div>
+          <div><div>Mon</div>
+            <p>Утренняя
+              майндфулнес-медитация
+              c 9:00 до 10:00 am PST</p>
+            <p>Коучинг-группа
+              Отношения на работе и в бизнесе
+              с 5:00 до 6:30 pm PST</p>
+          </div>
+          <div><div>Tue</div>
+            <span>
+              Вечерняя
+              майндфулнес-медитация
+              с 8:00 до 9:00 pm PST
+            </span>
+          </div>
+          <div><div>Wed</div>
+            <span>
+              Коучинг-группа
+              Проблемы отношений в семье
+              с 5:00 до 6:30 pm PST
+            </span>
+          </div>
+          <div><div>Thu</div>
+            <span>
+              Вечерняя
+              майндфулнес-медитация
+              с 8:00 до 9:00 pm PST
+            </span>
+          </div>
+
         </div>
-        <button>Подключить тариф на месяц</button>
+
+        <button onClick={handleLoginRedirect}>Подключить тариф на месяц</button>
+
         <noscript>You need to enable JavaScript to run this app.</noscript>
       </header>
 
-      <PayPalScriptProvider options={initialOptions}>
-        <Checkout/>
-      </PayPalScriptProvider>
-
+      {userSubscribed && (
+        <PayPalScriptProvider options={initialOptions}>
+          <Checkout />
+        </PayPalScriptProvider>
+      )}
     </div>
   );
 }

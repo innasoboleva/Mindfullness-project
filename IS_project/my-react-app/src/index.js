@@ -36,16 +36,28 @@ export function logged(isLoggedIn) {
   var buttonSignIn = document.querySelector(`#user-signin`);
   var buttonSignOut = document.querySelector(`#user-signout`);
   var schedule = document.getElementById("schedule");
+  var library = document.getElementById("library");
+  var register = document.getElementById("register");
   
   if (isLoggedIn) {
     buttonSignIn.classList.add('disabled');
     buttonSignOut.classList.remove('disabled');
-    schedule.style.display = 'block';
+    const subscribed = localStorage.getItem('subscription');
+    console.log('s', subscribed)
+    if (subscribed == 'true') {
+      schedule.style.display = 'block';
+    } else {
+      schedule.style.display = "none";
+    }
+    register.style.display = "none";
+    library.style.display = 'block';
     console.log('User signed in. Sign in button disabled')
   } else {
     buttonSignIn.classList.remove('disabled');
     buttonSignOut.classList.add('disabled');
     schedule.style.display = "none";
+    library.style.display = "none";
+    register.style.display = "block";
     console.log('User not signed in. Sign out disabled')
   }
 };

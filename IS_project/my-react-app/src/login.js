@@ -1,14 +1,18 @@
 import React, { useState } from 'react';
 import {logged} from './index';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 function LoginUser() {
+    const location = useLocation();
+    const params = new URLSearchParams(location.search);
+    const message = params.get('message');
+
     const [formInputs, setFormInputs] = useState({
         email: '',
         password: '',
     });
 
-    const [errorMessage, setErrorMessage] = useState('');
+    const [errorMessage, setErrorMessage] = useState(message);
     const navigate = useNavigate(); // Get the history object
 
     const handleChange = (event) => {
@@ -36,9 +40,9 @@ function LoginUser() {
                     } else {
                         localStorage.setItem('token', data['access_token']);
                         localStorage.setItem('email', formInputs['email']);
+                        localStorage.setItem('subscription', data['subscription']);
                         console.log("User has logged in");
-                        console.log(`User is ${formInputs['email']}`);
-                        console.log('Toke', data['access_token']);
+                        console.log(data);
                         logged(true);
                         navigate('/');
                     }
@@ -51,6 +55,7 @@ function LoginUser() {
     return (
         <React.Fragment>
         <div>
+        {errorMessage && <div id="error-message-signup">{errorMessage}</div>}
             <form id="sign-in-form" className="signin" onSubmit={handleSubmit}>
                 <div className="element">
                     <label htmlFor="user_email">Email</label>
@@ -83,7 +88,7 @@ function LoginUser() {
                 </div>
                 <button type="submit">Sign in</button>
             </form>
-            {errorMessage && <div id="error-message-signup">{errorMessage}</div>}
+            
         </div>
         </React.Fragment>);
 }

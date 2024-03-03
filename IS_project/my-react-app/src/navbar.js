@@ -16,13 +16,13 @@ function Navbar() {
         .then((data) => {
             if (data["status"] == "error") {
               console.log(data['message'])
-              logged(false);
-            } else {
-              localStorage.removeItem('token');
-              localStorage.removeItem('email');
-              console.log("User has logged out");
-              logged(false);
-            }
+            } 
+            localStorage.removeItem('token');
+            localStorage.removeItem('email');
+            localStorage.removeItem('subscription');
+            console.log("User has logged out");
+            logged(false);
+            
     });
   };
 
@@ -33,7 +33,29 @@ function Navbar() {
         <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span className="navbar-toggler-icon"></span>
         </button>
-        <div className="collapse navbar-collapse" id="navbarNav">
+        <div className="collapse navbar-collapse show" id="navbarNav"> {/* Add the 'show' class here */}
+        <ul className="navbar-nav">
+            <li className="nav-item active">
+                <Link className="nav-link" to="/">Home</Link>
+            </li>
+            <li className="nav-item">
+                <Link className="nav-link" to="/login" id="user-signin">Sign in</Link>
+            </li>
+            <li className="nav-item">
+                <Link className="nav-link" to="/" onClick={handleSignOut} id="user-signout">Sign out</Link>
+            </li>
+            <li className="nav-item">
+                <Link className="nav-link" to="/register" id="register">Register</Link>
+            </li>
+            <li className="nav-item">
+                <Link className="nav-link" to="/schedule" id="schedule">Schedule</Link>
+            </li>
+            <li className="nav-item">
+                <Link className="nav-link" to="/library" id="library">Library</Link>
+            </li>
+        </ul>
+    </div>
+        {/* <div className="collapse navbar-collapse" id="navbarNav">
         <ul className="navbar-nav">
             <li className="nav-item active">
             <Link className="nav-link" to="/">Home</Link>
@@ -54,7 +76,7 @@ function Navbar() {
             <Link className="nav-link" to="/library" id="library">Library</Link>
             </li>
         </ul>
-        </div>
+        </div> */}
         </nav>
     </React.Fragment>
   );

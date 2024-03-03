@@ -87,8 +87,9 @@ def login_user(request):
         try:
             user = authenticate(username=email, password=password)
             if user is not None:
+                subscription = Subscription.objects.get(user=user)
                 refresh = RefreshToken.for_user(user)
-                return JsonResponse({'status': 'success', 'access_token': str(refresh.access_token),
+                return JsonResponse({'status': 'success', 'access_token': str(refresh.access_token), 'subscription': subscription.paid_subscription,
             })
             else:
                 return JsonResponse({'status': 'error', 'message': 'Password doesn\'t match or User does not exist.'}) 
@@ -143,8 +144,10 @@ def user_subscribed(request):
 @api_view(['GET'])
 def get_content(request):
     posts = Post.objects.all()
-    data = [{'title': post.title, 'content': post.content, 'video_url': post.video_url} for post in posts]
-    return JsonResponse(data)
+    if posts:
+        data = [{'id': post.pk, 'title': post.title, 'content': post.content, 'video_url': post.video_url} for post in posts]
+        return JsonResponse({'status': 'success', 'data': data}, safe=False)
+    return JsonResponse({'status': 'error', 'message': 'No posts yet.'})
 
 
 

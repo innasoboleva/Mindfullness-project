@@ -16,7 +16,8 @@ function Library() {
           .then(response => response.json())
           .then(data => {
             if (data.status == 'success') {
-                setPosts(data['posts']);
+                setPosts(data.data);
+                console.log('data', data)
             } else {
               console.log(data.error)
             }
@@ -25,24 +26,21 @@ function Library() {
             console.error('Error: ', error);
           });
       }, []);
-   
-    useEffect(() => {
-        const fetchPosts = async () => {
-            const response = await axios.get('/api/posts/');
-            setPosts(response.data);
-        };
-        fetchPosts();
-    }, []);
 
     return (
         <React.Fragment>
             <div>
-            <h1>Content</h1>
+            <h2>Mindfullness club - Library</h2>
             {posts.map(post => (
                 <div key={post.id}>
-                    <h2>{post.title}</h2>
+                    <h3>{post.title}</h3>
                     <p>{post.content}</p>
-                    <iframe width="560" height="315" src={post.video_url} allowFullScreen></iframe>
+                    <iframe width="560" height="315" src={post.video_url}
+                    title={post.title} 
+                    frameborder="0" 
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                    allowfullscreen
+                    ></iframe>
                 </div>
             ))}
         </div>
