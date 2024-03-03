@@ -8,6 +8,7 @@ from django.core.serializers import serialize
 from rest_framework.permissions import IsAuthenticated
 from django.contrib.auth.models import User
 from .models import Subscription, UserTokenJWT
+from datetime import date
 
 
 @api_view(['GET', 'POST'])
@@ -123,19 +124,17 @@ def user_subscribed(request):
     if user.is_authenticated:
         try:
             subscription = Subscription.objects.get(user=user)
-            subscription.paid_subscription = active
-            subscription.subscription_start_date = timezone.now() if active else None
-            subscription.save()
+            subscription.update_subscription()
+            return JsonResponse({'status': 'success'})
         except Subscription.DoesNotExist:
-            # If the subscription doesn't exist for the user, create a new one
-            subscription = Subscription.create_subscription(user=user, active=active, date=timezone.now())
-            subscription.save()
-
-        return JsonResponse({'status': 'success'})
+            # If subscription doesn't exist
+            new_subscription = Subscription.create_subscription(user=user, active=True, date=date.today())
+            new_subscription.save()
+            return JsonResponse({'status': 'success'})
+        except Exception as e:
+            return JsonResponse({'status': 'error', 'message': str(e)})
     else:
         return JsonResponse({'status': 'error', 'message': 'User not authenticated.'})
-
-        return JsonResponse({'status': 'success'})
 
 
 
