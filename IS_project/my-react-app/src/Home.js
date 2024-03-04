@@ -1,15 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import './App.css';
-import { logged } from './index';
 import Checkout from './checkout';
 import { PayPalScriptProvider } from "@paypal/react-paypal-js";
 
 
-
-function App() {
-
-  const [userNotLogedIn, setUserNotLogedIn] = useState(true);
+function Home(props) {
+  const { isLoggedIn, isSubscribed, setIsSubscribed } = props;
 
   const initialOptions = {
     'client-id': "AaM7EWfJN3pojl3GMiAThBxvfiDFNcfEKsHPV-x8fKzEJLzk3hXyanJhLfOKrSEeOjWhqPGmThn8j1XF",
@@ -20,34 +17,11 @@ function App() {
     "data-sdk-integration-source": "integrationbuilder_sc",
   };
 
-  const userSubscribed = localStorage.getItem('subscription') == 'false';
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const jwtToken = localStorage.getItem('token');
-
-    fetch('http://127.0.0.1:8000/api/get_user', {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${jwtToken}`,
-      },
-    })
-      .then(response => response.json())
-      .then(data => {
-        if (data.status == 'success') {
-          setUserNotLogedIn(false);
-          logged(true);
-        } else {
-          setUserNotLogedIn(true);
-          logged(false);
-          console.log('user is not logged, showing button')
-        }
-      })
-      .catch(error => {
-        console.error('Error: ', error);
-      });
-  }, []);
+  const handleSuccessfullCheckoout = () => {
+    setIsSubscribed(true);
+  };
 
   const handleLoginRedirect = () => {
     const data = { message: 'You must be logged in for making payments' };
@@ -113,18 +87,20 @@ function App() {
 
         </div>
 
+        { !isLoggedIn && (
         <button onClick={handleLoginRedirect}>Подключить тариф на месяц</button>
+        )}
 
         <noscript>You need to enable JavaScript to run this app.</noscript>
       </header>
 
-      {userSubscribed && (
+      { isLoggedIn && !isSubscribed && (
         <PayPalScriptProvider options={initialOptions}>
-          <Checkout />
+          <Checkout handleSuccessfullCheckoout={handleSuccessfullCheckoout} />
         </PayPalScriptProvider>
       )}
     </div>
   );
 }
 
-export default App;
+export default Home;

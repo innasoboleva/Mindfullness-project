@@ -11,17 +11,11 @@ from .models import Subscription, UserTokenJWT, Post
 from datetime import date
 
 
-@api_view(['GET', 'POST'])
-def index(request):
-    data = {
-        'page': 1,
-        'status': 'success'
-    }
-    return JsonResponse(data)
-
-
 @api_view(['GET'])
 def show_users(request):
+    """
+    For testing puposes -- checking BD data.
+    """
     users = User.objects.all()
     serialized_users = serialize("json", users)
     
@@ -42,6 +36,9 @@ def show_users(request):
 
 @api_view(['POST'])
 def create_user(request):
+    """
+    Creates new user, subscription (not active until paid).
+    """
     if request.body:
         # Decoding the JSON data
         data = json.loads(request.body)
@@ -67,17 +64,24 @@ def create_user(request):
 @authentication_classes([JWTAuthentication])
 @permission_classes([IsAuthenticated])
 def get_user(request):
+    """
+    Function for checking if user is logged in and has paid subscription.
+    """
     user = request.user
     if user.is_authenticated:
         firstname = user.first_name
         user_email = user.email
-        return JsonResponse({'status': 'success', 'username': firstname, 'email': user_email})
+        subscription = Subscription.objects.get(user=user)
+        return JsonResponse({'status': 'success', 'username': firstname, 'email': user_email, 'subscribed': subscription.paid_subscription })
     else:
         return JsonResponse({'status': 'error', 'message': 'User is not logged in.'})
 
 
 @api_view(['POST'])
 def login_user(request):
+    """
+    Login user. Returns JSON response which includes if user has paid subscription.
+    """
     if request.body:
         data = json.loads(request.body)
         email = data.get('email').lower()
@@ -100,6 +104,9 @@ def login_user(request):
 
 @api_view(['GET'])
 def logout_user(request):
+    """
+    Function for loging out.
+    """
     if request.user.is_authenticated:
         try:
             # Blacklist the refresh token
@@ -121,6 +128,9 @@ def logout_user(request):
 @permission_classes([IsAuthenticated])
 @api_view(['POST'])
 def user_subscribed(request):
+    """
+    For updating user's subscription -- marking it as a paid one and active for 30 days starting the day it was paid.
+    """
     user = request.user
     print('Subscribing...')
     if user.is_authenticated:
@@ -143,6 +153,9 @@ def user_subscribed(request):
 @permission_classes([IsAuthenticated])
 @api_view(['GET'])
 def get_content(request):
+    """
+    Showing all posts that were made by owner. Only for logged in users.
+    """
     posts = Post.objects.all()
     if posts:
         data = [{'id': post.pk, 'title': post.title, 'content': post.content, 'video_url': post.video_url} for post in posts]

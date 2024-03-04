@@ -37,9 +37,9 @@ function Library() {
                     <p>{post.content}</p>
                     <iframe width="560" height="315" src={post.video_url}
                     title={post.title} 
-                    frameborder="0" 
+                    frameBorder="0" 
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
-                    allowfullscreen
+                    allowFullScreen
                     ></iframe>
                 </div>
             ))}

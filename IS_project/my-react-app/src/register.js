@@ -2,7 +2,9 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { logged } from './index';
 
-function RegisterUser() {
+function RegisterUser(props) {
+    const { setIsLoggedIn } = props;
+
     const [formInputs, setFormInputs] = useState({
         username: '',
         email: '',
@@ -10,7 +12,7 @@ function RegisterUser() {
     });
 
     const navigate = useNavigate(); // Get the history object
-    
+
     const [errorMessage, setErrorMessage] = useState('');
 
     const handleChange = (event) => {
@@ -35,10 +37,10 @@ function RegisterUser() {
                     if (data.status === 'success') {
                         localStorage.setItem('token', data['access_token']);
                         localStorage.setItem('email', formInputs['email']);
+                        setIsLoggedIn(true);
                         navigate('/');
                         setErrorMessage('');
                         console.log('User is created', data['email'])
-                        logged(true)
                     } else {
                         console.log(data.message)
                         setErrorMessage(data.message);
@@ -51,55 +53,55 @@ function RegisterUser() {
 
     return (
         <React.Fragment>
-        <div>
-        {errorMessage && <div id="error-message-signup">{errorMessage}</div>}
-            <form id="sign-up-form" className="signin" onSubmit={handleSubmit}>
-                <div className="element">
-                    <label htmlFor="user_name">Name</label>
-                    <input
-                        className="input myInput"
-                        id="user_name"
-                        name="username"
-                        type="text"
-                        value={formInputs.username}
-                        onChange={handleChange}
-                        maxLength="50"
-                        alt="put your name here"
-                    />
-                </div>
-                <div className="element">
-                    <label htmlFor="user_email">Email</label>
-                    <input
-                        className="input myInput"
-                        id="user_email"
-                        name="email"
-                        type="email"
-                        value={formInputs.email}
-                        onChange={handleChange}
-                        alt="put your email here"
-                    />
-                </div>
-                <div className="element">
-                    <label htmlFor="user_password">Password</label>
-                    <input
-                        className="input myInput"
-                        id="user_password"
-                        name="password"
-                        type="password"
-                        value={formInputs.password}
-                        onChange={handleChange}
-                        maxLength="50"
-                        minLength="10"
-                        alt="put your password here"
-                    />
-                    <div className="status" aria-hidden="true">
-                        {formInputs.password.length < 10 && 'At least 10 characters'}
+            <div>
+                {errorMessage && <div id="error-message-signup">{errorMessage}</div>}
+                <form id="sign-up-form" className="signin" onSubmit={handleSubmit}>
+                    <div className="element">
+                        <label htmlFor="user_name">Name</label>
+                        <input
+                            className="input myInput"
+                            id="user_name"
+                            name="username"
+                            type="text"
+                            value={formInputs.username}
+                            onChange={handleChange}
+                            maxLength="50"
+                            alt="put your name here"
+                        />
                     </div>
-                </div>
-                <button type="submit">Sign me up!</button>
-            </form>
-            {errorMessage && <div id="error-message-signup">{errorMessage}</div>}
-        </div>
+                    <div className="element">
+                        <label htmlFor="user_email">Email</label>
+                        <input
+                            className="input myInput"
+                            id="user_email"
+                            name="email"
+                            type="email"
+                            value={formInputs.email}
+                            onChange={handleChange}
+                            alt="put your email here"
+                        />
+                    </div>
+                    <div className="element">
+                        <label htmlFor="user_password">Password</label>
+                        <input
+                            className="input myInput"
+                            id="user_password"
+                            name="password"
+                            type="password"
+                            value={formInputs.password}
+                            onChange={handleChange}
+                            maxLength="50"
+                            minLength="10"
+                            alt="put your password here"
+                        />
+                        <div className="status" aria-hidden="true">
+                            {formInputs.password.length < 10 && 'At least 10 characters'}
+                        </div>
+                    </div>
+                    <button type="submit">Sign me up!</button>
+                </form>
+                {errorMessage && <div id="error-message-signup">{errorMessage}</div>}
+            </div>
         </React.Fragment>);
 }
 

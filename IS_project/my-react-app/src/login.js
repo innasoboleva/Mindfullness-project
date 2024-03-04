@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
-import {logged} from './index';
+// import {logged} from './index';
 import { useNavigate, useLocation } from 'react-router-dom';
 
-function LoginUser() {
+function LoginUser(props) {
+    const { setIsLoggedIn, setIsSubscribed } = props;
+    
     const location = useLocation();
     const params = new URLSearchParams(location.search);
     const message = params.get('message');
@@ -36,14 +38,13 @@ function LoginUser() {
                 .then((data) => {
                     if (data.status === 'error') {
                         setErrorMessage(data.message);
-                        console.log(data.message)
                     } else {
                         localStorage.setItem('token', data['access_token']);
                         localStorage.setItem('email', formInputs['email']);
-                        localStorage.setItem('subscription', data['subscription']);
                         console.log("User has logged in");
                         console.log(data);
-                        logged(true);
+                        setIsLoggedIn(true);
+                        setIsSubscribed(Boolean(data.subscription));
                         navigate('/');
                     }
                 });
