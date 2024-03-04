@@ -10,6 +10,9 @@ from django.contrib.auth.models import User
 from .models import Subscription, UserTokenJWT, Post
 from datetime import date
 
+from django.conf import settings
+from django.core.mail import send_mail
+
 
 @api_view(['GET'])
 def show_users(request):
@@ -125,6 +128,20 @@ def logout_user(request):
         return JsonResponse({'status': 'error', 'message': 'User not authenticated.'})
 
 
+def send_email(name, email):
+    """
+    Sends email using app generated password (via gmail).
+    """
+    try:
+        subject = 'welcome to GFG world'
+        message = f'Hi {name}, thank you for registering in Mindfullness club hosted by Irina Soboleva.'
+        email_from = settings.EMAIL_HOST_USER
+        recipient_list = ['nysik62@gmail.com', ] # CHANGE email to USER'S. TESTING PURPUSES ONLY
+        send_mail( subject, message, email_from, recipient_list )
+    except:
+        print("Didn't send email.")
+
+
 @permission_classes([IsAuthenticated])
 @api_view(['POST'])
 def user_subscribed(request):
@@ -138,6 +155,8 @@ def user_subscribed(request):
             subscription = Subscription.objects.get(user=user)
             subscription.update_subscription()
             print('Subscribed!')
+             # sending welcoming email
+            send_email(user.first_name, user.email)
             return JsonResponse({'status': 'success'})
         except Subscription.DoesNotExist:
             # If subscription doesn't exist
@@ -146,6 +165,7 @@ def user_subscribed(request):
             return JsonResponse({'status': 'success'})
         except Exception as e:
             return JsonResponse({'status': 'error', 'message': str(e)})
+       
     else:
         return JsonResponse({'status': 'error', 'message': 'User not authenticated.'})
     
@@ -161,6 +181,5 @@ def get_content(request):
         data = [{'id': post.pk, 'title': post.title, 'content': post.content, 'video_url': post.video_url} for post in posts]
         return JsonResponse({'status': 'success', 'data': data}, safe=False)
     return JsonResponse({'status': 'error', 'message': 'No posts yet.'})
-
 
 

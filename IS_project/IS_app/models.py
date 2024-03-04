@@ -18,8 +18,7 @@ class Subscription(models.Model):
     subscription_end_date = models.DateField(null=True, blank=True)
 
     @classmethod
-    def create_subscription(cls, user, active=False, date=None):
-        end_date = date + timedelta(days=30)
+    def create_subscription(cls, user, active=False, date=None, end_date=None):
         return cls(user=user, paid_subscription=active, subscription_start_date=date, subscription_end_date=end_date)
 
     def update_subscription(self):

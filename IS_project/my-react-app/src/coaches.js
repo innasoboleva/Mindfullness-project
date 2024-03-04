@@ -20,7 +20,7 @@ function Coaches() {
                             <h3>Коуч ICF, бизнес-коуч с психологическим образованием, инструктор майндфулнес</h3>
                             <p>Инструктор практик майндфулнес, коуч ICF, Основатель Mindful Club. Главная цель всего что делает Ира это раскрыть человеку его собственные желания и стремления, какими страшными и удивительными они не казались.
                                 ‌В MINDFUL CLUB ведет групповой коучинг и практики майндфулнес.</p>
-                            <button onClick={toggleCarousel}>{isCarouselOpen ? 'Закрыть' : 'Узнать больше!'} </button>
+                            <button onClick={toggleCarousel}>{isIsCarouselOpen ? 'Закрыть' : 'Узнать больше!'} </button>
                         </div>
                         <div className='coach-image'>
                             <img src="/img/IS_portrait_coach.jpg" alt="Ira Soboleba coach portrait"></img>

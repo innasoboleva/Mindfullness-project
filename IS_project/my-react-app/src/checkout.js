@@ -21,7 +21,7 @@ function Checkout(props) {
     return actions.order.capture().then((details) => {
       const jwtToken = localStorage.getItem('token');
       // Update server
-      fetch('http://127.0.0.1:8000/api/subscribed/', {
+      fetch('http://127.0.0.1:8000/api/subscribed', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

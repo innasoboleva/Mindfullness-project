@@ -166,6 +166,14 @@ SESSION_COOKIE_HTTPONLY = False # ureadable by JS if ture
 # SESSION_SAVE_EVERY_REQUEST = True
 # SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 
-#If it's not explicitly defined, it defaults to 'Lax'. You can override it to 'None' to allow cross-site requests
+# If it's not explicitly defined, it defaults to 'Lax'. You can override it to 'None' to allow cross-site requests
 SESSION_COOKIE_SAMESITE = 'None'
 SESSION_COOKIE_SECURE = True
+
+# For sending mails
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_USE_TLS = True
+EMAIL_PORT = 587
+EMAIL_HOST_USER = os.environ.get('EMAIL_USER')
+EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_PASSWORD')
