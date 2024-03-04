@@ -3,10 +3,10 @@ import './coaches.css'
 // import { Carousel } from 'react-bootstrap';
 
 function Coaches() {
-    const [isCarouselOpen, setIsCarouselOpen] = useState(false);
+    const [isIsCarouselOpen, setIsIsCarouselOpen] = useState(false);
 
     const toggleCarousel = () => {
-        setIsCarouselOpen(!isCarouselOpen);
+        setIsIsCarouselOpen(!isIsCarouselOpen);
     };
 
     return (
@@ -26,7 +26,7 @@ function Coaches() {
                             <img src="/img/IS_portrait_coach.jpg" alt="Ira Soboleba coach portrait"></img>
                         </div>
                     </div>
-                    {isCarouselOpen && (
+                    {isIsCarouselOpen && (
 
                         <div id="carouselExampleIndicators" class="carousel carousel-dark slide" data-ride="carousel">
                             <ol class="carousel-indicators">
@@ -59,7 +59,6 @@ function Coaches() {
                             </a>
                             <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
                                 <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                
                             </a>
                             <br></br>
                         </div>
