@@ -86,7 +86,13 @@ function Home(props) {
           </div>
 
         </div>
-
+        <div>
+        Тариф ЛАЙТ 45 USD/ МЕСЯЦ
+        <p>Неограниченный доступ к MINDFUL CLUB на месяц</p>
+        <p>+ ко всем коучинг-группам</p>
+        <p>+ ко всем майндфулнес-медитациям</p>
+        <p>+ ко всем событиям и тренингам</p>
+        </div>
         { !isLoggedIn && (
         <button onClick={handleLoginRedirect}>Подключить тариф на месяц</button>
         )}

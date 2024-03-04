@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-// import {logged} from './index';
 import { useNavigate, useLocation } from 'react-router-dom';
 
 function LoginUser(props) {

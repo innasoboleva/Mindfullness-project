@@ -1,0 +1,35 @@
+.coach-block img {
+    height: 600px;
+}
+
+.coach-block {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .coach {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    margin-bottom: 20px;
+  }
+  
+  .coach-image {
+    margin-right: 20px;
+    flex-shrink: 0; 
+  }
+  
+  .coach-info {
+    max-width: 400px;
+  }
+
+  .coach-reverse {
+    flex-direction: row-reverse; /* Reverses the order of image and text */
+  }
+  
+
+  .carousel-item {
+    width: 100%; /* Set a fixed width for the carousel items */
+    height: 400px; /* Set a fixed height for the carousel items */
+  }

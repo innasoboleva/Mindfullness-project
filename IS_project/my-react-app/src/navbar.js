@@ -61,6 +61,12 @@ function Navbar(props) {
             <li className="nav-item">
               <Link className="nav-link" to="/library" id="library">Library</Link>
             </li>
+            <li className="nav-item">
+              <Link className="nav-link" to="/coaches" id="faq">Our Coaches</Link>
+            </li>
+            <li className="nav-item">
+              <Link className="nav-link" to="/faq" id="faq">FAQ</Link>
+            </li>
           </ul>
         </div>
       </nav>
