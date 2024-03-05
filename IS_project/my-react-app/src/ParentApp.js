@@ -5,7 +5,8 @@ import RegisterUser from './register';
 import Home from './Home';
 import Library from './library';
 import LoginUser from './login'
-import Schedule from './schedule';
+// import Schedule from './schedule';
+import Scheduler from './scheduler';
 import FAQ from './faq';
 import Coaches from './coaches';
 
@@ -52,7 +53,8 @@ function ParentApp() {
                 <Route exact path="/" element={<Home isLoggedIn={isLoggedIn} isSubscribed={isSubscribed} setIsSubscribed={setIsSubscribed} />} />
                 <Route exact path="/register" element={<RegisterUser setIsLoggedIn={setIsLoggedIn} />} />
                 <Route exact path="/login" element={<LoginUser setIsLoggedIn={setIsLoggedIn} setIsSubscribed={setIsSubscribed} />} />
-                <Route exact path="/schedule" element={<Schedule />} />
+                {/* <Route exact path="/schedule" element={<Schedule />} /> */}
+                <Route exact path="/scheduler" element={<Scheduler />} />
                 <Route exact path="/library" element={<Library />} />
                 <Route exact path="/coaches" element={<Coaches />} />
                 <Route exact path="/faq" element={<FAQ />} />

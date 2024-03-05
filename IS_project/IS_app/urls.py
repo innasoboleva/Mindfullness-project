@@ -9,4 +9,5 @@ urlpatterns = [
     path('users', views.show_users, name='show_users'),
     path('api/subscribed', views.user_subscribed, name='user_subscribed'),
     path('api/library', views.get_content, name='get_content'),
+    path('api/scheduler', views.get_scheduler, name='get_scheduler'),
 ]

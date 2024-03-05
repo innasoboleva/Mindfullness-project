@@ -52,3 +52,18 @@ class Post(models.Model):
 
     def __str__(self):
         return f"{self.title}, {self.content}, {self.video_url}"
+    
+
+class Scheduler(models.Model):
+    """
+    Model for displaying schedule. Access in admin panel.
+    """
+    day = models.CharField(max_length=200)
+    semi_title = models.CharField(max_length=200)
+    title = models.CharField(max_length=200)
+    name = models.TextField()
+    time = models.TextField()
+    schedule_url = models.URLField(default='')
+
+    def __str__(self):
+        return f"{self.title}, {self.semi_title}, {self.day}"

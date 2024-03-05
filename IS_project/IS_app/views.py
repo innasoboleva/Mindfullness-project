@@ -7,7 +7,7 @@ import json
 from django.core.serializers import serialize
 from rest_framework.permissions import IsAuthenticated
 from django.contrib.auth.models import User
-from .models import Subscription, UserTokenJWT, Post
+from .models import Subscription, UserTokenJWT, Post, Scheduler
 from datetime import date
 
 from django.conf import settings
@@ -181,5 +181,17 @@ def get_content(request):
         data = [{'id': post.pk, 'title': post.title, 'content': post.content, 'video_url': post.video_url} for post in posts]
         return JsonResponse({'status': 'success', 'data': data}, safe=False)
     return JsonResponse({'status': 'error', 'message': 'No posts yet.'})
+
+
+@api_view(['GET'])
+def get_scheduler(request):
+    """
+    Showing schedule that was made by owner in admin panel.
+    """
+    posts = Scheduler.objects.all()
+    if posts:
+        data = [{'id': post.pk, 'title': post.title, 'semi_title': post.semi_title, 'day': post.day, 'name': post.name, 'time': post.time, 'url': post.schedule_url} for post in posts]
+        return JsonResponse({'status': 'success', 'data': data}, safe=False)
+    return JsonResponse({'status': 'error', 'message': 'No schedule yet.'})
 
 

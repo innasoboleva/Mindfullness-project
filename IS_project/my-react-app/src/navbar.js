@@ -53,16 +53,19 @@ function Navbar(props) {
                 <Link className="nav-link" to="/register" id="register">Register</Link>
               </li>
             )}
-            {isLoggedIn && isSubscribed && (
+            {/* {isLoggedIn && isSubscribed && (
               <li className="nav-item">
                 <Link className="nav-link" to="/schedule" id="schedule">Schedule</Link>
               </li>
-            )}
+            )} */}
             <li className="nav-item">
               <Link className="nav-link" to="/library" id="library">Library</Link>
             </li>
             <li className="nav-item">
               <Link className="nav-link" to="/coaches" id="faq">Our Coaches</Link>
+            </li>
+            <li className="nav-item">
+              <Link className="nav-link" to="/scheduler" id="scheduler">Расписание</Link>
             </li>
             <li className="nav-item">
               <Link className="nav-link" to="/faq" id="faq">FAQ</Link>
